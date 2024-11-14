@@ -1,6 +1,7 @@
 package link
 
 import (
+	"fmt"
 	"go/adv-demo/configs"
 	"go/adv-demo/pkg/middleware"
 	"go/adv-demo/pkg/req"
@@ -108,6 +109,9 @@ func (handler *LinkHandler)Update() http.HandlerFunc{
 		}
 
 		res.Json(w, link, 200)
+		
+		emailFromContext := r.Context().Value(middleware.ContextEmailKey).(string)
+		fmt.Println(emailFromContext)
 	}
 }
 
