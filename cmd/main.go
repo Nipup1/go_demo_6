@@ -7,12 +7,14 @@ import (
 	"go/adv-demo/internal/link"
 	"go/adv-demo/internal/user"
 	"go/adv-demo/pkg/db"
+	"go/adv-demo/pkg/jwt"
 	"go/adv-demo/pkg/middleware"
 	"net/http"
 )
 
 func main() {
 	conf := configs.LoadConfig()
+	jwt := jwt.NewJWT(conf.Auth.Secret)
 	db := db.NewDb(conf)
 	router := http.NewServeMux()
 
@@ -27,9 +29,11 @@ func main() {
 	auth.NewAuthHandler(router, auth.AuthHadlerDeps{
 		Config: conf,
 		AuthService: authService,
+		JWT: jwt,
 	})
 	link.NewLinkHandler(router, link.LinkHandlerDeps{
 		LinkRepository: linkRepository,
+		Config: conf,
 	})
 
 	//Middlewares
