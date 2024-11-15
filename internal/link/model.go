@@ -1,6 +1,7 @@
 package link
 
 import (
+	"go/adv-demo/internal/stat"
 	"math/rand"
 
 	"gorm.io/gorm"
@@ -8,27 +9,28 @@ import (
 
 type Link struct {
 	gorm.Model
-	Url  string `json:"url"`
-	Hash string `json:"hash" gorm:"uniqIndex"`
+	Url   string      `json:"url"`
+	Hash  string      `json:"hash" gorm:"uniqIndex"`
+	Stats []stat.Stat `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
-func NewLink(url string) *Link{
+func NewLink(url string) *Link {
 	return &Link{
-		Url: url,
+		Url:  url,
 		Hash: RandStringRunes(6),
 	}
 }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
-func RandStringRunes(n int) string{
+func RandStringRunes(n int) string {
 	b := make([]rune, n)
-	for i := range b{
+	for i := range b {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
 	}
 	return string(b)
 }
 
-func (link *Link)GenereteHash(){
+func (link *Link) GenereteHash() {
 	link.Hash = RandStringRunes(6)
 }
