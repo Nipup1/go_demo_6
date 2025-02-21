@@ -44,6 +44,10 @@ func main() {
 		Config: conf,
 		EventBus: eventBus,
 	})
+	stat.NewStatHendler(router, stat.StatHandlerDeps{
+		StatRepository: statRepository,
+		Config: conf,
+	})
 
 	//Middlewares
 	stack := middleware.Chain(
@@ -59,6 +63,6 @@ func main() {
 		Handler: stack(router),
 	}
 
-	fmt.Println("Server is listenin on port 8081")
+	fmt.Println("Server is listening on port 8081")
 	server.ListenAndServe()
 }

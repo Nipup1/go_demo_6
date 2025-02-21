@@ -33,6 +33,7 @@ func (j *JWT) Parse(token string) (bool, *JWTData){
 	t, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		return []byte(j.Secret), nil
 	})
+	
 	if err != nil{
 		return false, nil
 	}

@@ -53,7 +53,7 @@ func (handler *LinkHandler)Create() http.HandlerFunc{
 			link.GenereteHash()
 		}
 
-		createdLink, err :=handler.LinkRepository.Create(link)
+		createdLink, err := handler.LinkRepository.Create(link)
 		if err != nil{
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
